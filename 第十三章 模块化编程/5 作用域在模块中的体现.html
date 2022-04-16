@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body></body>
+	<script>
+		//不设置type=module的时候，不论写多少个script标签，都是处于同一个作用域，如果设置了之后，每一个type="module“都有一个作用域
+		let site = "后盾人"
+	</script>
+	<script>
+		console.log(site)
+	</script>
+	<script src="./houdunren.js" type="module"></script>
+</html>

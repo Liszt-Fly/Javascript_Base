@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body></body>
+	<script type="module">
+		import * as api from "./m8.js"
+		console.log(api.title)
+		console.log(api.url)
+		//不推荐使用批量导入，使用批量导入，打包工具会将这些内容全打包进来，增大打包的体积
+	</script>
+</html>

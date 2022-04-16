@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body></body>
+	<script>
+		let module = (function () {
+			const moduleList = {}
+			function define(name, modules, action) {
+				modules.map((m, i) => {
+					//将moduleList的真正模块传入modules
+					modules[i] = moduleList[m]
+				})
+				//将modules传入作为参数传入action，并且放置到moduleList中去
+				moduleList[name] = action.apply(null, modules)
+			}
+			return { define }
+		})()
+		//定义第一个模块
+		module.define("hd", [], function () {
+			return {
+				first(arr) {
+					return arr[0]
+				},
+				max(arr, key) {
+					return arr.sort((a, b) => b[key] - a[key])[0]
+				},
+			}
+		})
+		//定义第二个模块
+		module.define("lesson", ["hd"], function (hd) {
+			let data = [
+				{ name: "js", price: 199 },
+				{ name: "mysql", price: 78 },
+			]
+			console.log(hd.max(data, "price"))
+		})
+
+		//定义第三个模块
+		module.define("a", [], function (hd) {
+			return {
+				site: "后盾人",
+				url: "houdunren.com",
+			}
+		})
+
+		module.define("a", [], function (hd) {
+			return {
+				site: "后盾人",
+				url: "houdunren.com",
+			}
+		})
+
+		module.define("b", ["a"], function (a) {
+			a.site = "hdcms"
+		})
+
+		module.define("c", ["a"], function (a) {
+			console.log(a.site)
+		})
+	</script>
+</html>
