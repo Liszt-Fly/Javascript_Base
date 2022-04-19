@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body></body>
+	<script>
+		function Hd() {}
+		Hd.prototype.show = function () {}
+		Hd.prototype.hide = function () {}
+		console.log(
+			JSON.stringify(
+				Object.getOwnPropertyDescriptor(Hd.prototype, "show"),
+				null,
+				2
+			)
+		)
+		let h = new Hd()
+		for (const key in h) {
+			//原型方法也被遍历出来
+			console.log(key)
+		}
+		Object.defineProperty(Hd.prototype, "show", {
+			enumerable: false,
+		})
+
+		console.log(1)
+		for (const key in h) {
+			console.log(key)
+		}
+		console.log("--------------------")
+		class Article {
+			get() {}
+			read() {}
+		}
+		let article = new Article()
+		for (const key in article) {
+			console.log(key)
+		}
+		console.log("finish")
+	</script>
+</html>
