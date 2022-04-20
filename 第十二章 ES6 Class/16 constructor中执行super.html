@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body></body>
+	<script>
+		function User(name) {
+			this.name = name
+		}
+
+		function Admin(...args) {
+			User.apply(this, args)
+		}
+		Admin.prototype = Object.create(User.prototype)
+		let hd = new Admin("后盾人")
+		console.log(hd)
+		//----------------------------------
+		class cUser {
+			constructor(name) {
+				this.name = name
+			}
+		}
+		class cAdmin extends cUser {
+			constructor(...args) {
+				super(...args)
+				this.site = "houdunren.com"
+				this.name = args[0] //子类属性可以覆盖父类，所以super一定写前面
+			}
+		}
+	</script>
+</html>

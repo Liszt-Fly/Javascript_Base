@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body></body>
+	<script>
+		function hd() {}
+		hd.prototype.show = function () {
+			console.log("后盾人")
+		}
+		function xj() {}
+		xj.prototype = Object.create(hd.prototype)
+		console.dir(xj)
+		let x = new xj()
+		x.show()
+		//--------------------------------
+		class User {
+			show() {
+				console.log("Hello,World")
+			}
+		}
+		class Admin extends User {}
+		let admin = new Admin()
+		admin.show()
+	</script>
+</html>

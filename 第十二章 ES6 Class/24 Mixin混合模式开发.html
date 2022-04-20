@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body></body>
+	<script>
+		let Tool = {
+			max(key) {
+				console.log(this.data)
+				return this.data.sort((a, b) => b[key] - a[key])[0]
+			},
+		}
+		let Arr = {
+			count(key) {
+				return this.data.reduce((t, c) => t + c[key], 0)
+			},
+		}
+		class Lesson {
+			constructor(lessons) {
+				this.lessons = lessons
+			}
+			get data() {
+				return this.lessons
+			}
+		}
+		const data = [
+			{ name: "js", price: 100 },
+			{ name: "css", price: 122 },
+			{ name: "vue.js", price: 210 },
+		]
+		Object.assign(Lesson.prototype, Tool, Arr)
+		let hd = new Lesson(data)
+		console.log(hd.max("price"))
+		console.log(hd.count("price"))
+	</script>
+</html>
