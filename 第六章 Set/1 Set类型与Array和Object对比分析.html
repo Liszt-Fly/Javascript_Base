@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body></body>
+	<script>
+		let set = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
+		console.log(set)
+		set.add(1)
+		set.add(1)
+		set.add("1")
+		//set可以去除重复
+		//对象里key"1" 和1是一样的
+		let obj = {
+			1: "hdmcs",
+			1: "houdunren",
+		}
+		let hd = {
+			obj: "houdunren",
+		}
+		//内容被覆盖
+		obj[1] = "hdcms"
+		obj["1"] = "Mikeedu"
+		console.log(obj)
+	</script>
+</html>

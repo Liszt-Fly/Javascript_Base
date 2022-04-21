@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body></body>
+	<script>
+		let hd = { name: "后盾人" }
+		let edu = hd
+		//放在WeakSet，引用计数器不会+1，被称为弱引用
+		let set = new WeakSet()
+		set.add(hd)
+		console.log(set)
+		hd = null
+		edu = null
+		setTimeout(() => {
+			console.log(set)
+		}, 2000)
+	</script>
+</html>

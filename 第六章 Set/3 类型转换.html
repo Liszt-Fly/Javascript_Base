@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body></body>
+	<script>
+		let set = new Set(["hdcms", "houdunren"])
+		//set转化为数组
+		console.log(Array.from(set))
+		console.log([...set])
+		//移除大于5的元素
+		let hd = new Set("123456789")
+		console.log(
+			[...hd].filter((item) => {
+				return item < 5
+			})
+		)
+		//利用set来进行数组去重
+		let array = [1, 2, 3, 4, 5, 3, 1, 2, 4]
+		function filterRepeatEl(array) {
+			return [...new Set(array)]
+		}
+		console.log(filterRepeatEl(array))
+	</script>
+</html>
