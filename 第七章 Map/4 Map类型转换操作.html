@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body></body>
+	<script>
+		let map1 = new Map([
+			["hdcms", "开源系统"],
+			["houdunren", "开源系统教程"],
+		])
+		console.log(...map1)
+		console.log(...map1.keys())
+		console.log(...map1.values())
+		let newArr = [...map1].filter((item) => {
+			return item[1].includes("教程")
+		})
+		console.log(new Map(newArr))
+	</script>
+</html>
