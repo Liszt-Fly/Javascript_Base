@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body></body>
+	<script>
+		let lessons = [
+			{ title: "JS基础学习", click: 99 },
+			{
+				title: "vue课程",
+				click: 32,
+			},
+			{
+				title: "css学习",
+				click: 12,
+			},
+		]
+		function change(lessons, num = 100, i = 0) {
+			if (i == lessons.length) return lessons
+			lessons[i].click += num
+			return change(lessons, num, ++i)
+		}
+		console.table(change(lessons))
+	</script>
+</html>

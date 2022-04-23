@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body></body>
+	<script>
+		let Lesson = {
+			site: "后盾人",
+			lists: ["js", "css", "mysql"],
+			show: function () {
+				const self = this
+				return this.lists.map(function (value) {
+					return (value = `${self.site}-1s`)
+				})
+                //map方法可以通过第二个参数改变this
+			},
+		}
+		console.table(Lesson.show())
+	</script>
+</html>
