@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body></body>
+<script>
+    function Request() {
+        this.get = function (parms) {
+            //id=1&cat=js
+
+            let str = Object.keys(parms)
+                .map((k) => `${k}=${parms[k]}`)
+                .join("&")
+            let url = `https://houdunren.com?${this.url}/${str}<br/>`
+            document.write(url)
+        }
+    }
+    function Article() {
+        this.url = `article/lists`
+        Request.call(this)
+    }
+    function User() {
+        this.url = "user/lists"
+        Request.call(this)
+    }
+    let a = new Article()
+    console.log(a.get({ id: 1, cat: "js" }))
+    let b = new User()
+    console.log(b.get({ id: 1, cat: "admin" }))
+</script>
+
+</html>

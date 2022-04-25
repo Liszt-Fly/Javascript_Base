@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<button>hdcms</button>
+	</body>
+	<script>
+		//箭头函数指向的上下文的this，如果找不到就继续向上一层去查找，直到找到，最顶级的this指向windwos
+		let Lesson = {
+			site: "后盾人",
+			lists: ["js", "css", "mysql"],
+			show: function () {
+				return this.lists.map((value) => (value = `${this.site}-1s`))
+				//map方法可以通过第二个参数改变this
+			},
+		}
+
+		let Dom = {
+			site: "后盾人",
+			handleEvent: function (evet) {
+				console.log(this)
+				console.log(event.target)
+			},
+			bind: function () {
+				const button = document.querySelector("button")
+				// button.addEventListener("click", () => {
+				// 	console.log(this) //指向上一级的对象DOM
+				// })
+				button.addEventListener("click", this)
+			},
+		}
+		Dom.bind()
+	</script>
+</html>

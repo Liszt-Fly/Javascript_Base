@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<button>hdcms</button>
+		<button>houdunren</button>
+	</body>
+
+	<script>
+		let lisi = {
+			name: "李四",
+		}
+		let wangwu = {
+			name: "王五",
+		}
+		function User(web, url) {
+			console.log(this.name)
+		}
+		User.call(lisi, "hdcms.com", "houdunren.com")
+		User.apply(lisi, ["houdunren.com", "houdunren "])
+		function show() {
+			alert(this.innerHTML)
+		}
+		let buttons = document.querySelectorAll("button")
+		for (let i = 0; i < buttons.length; i++) {
+			buttons[i].addEventListener("click", () => {
+				show.call(event.target)
+			})
+		}
+
+		console.log(Math.max(12, 2, 3, 4))
+		let arr = [1, 2, 3, 4, 5]
+		console.log(Math.max.apply(null, arr))
+	</script>
+</html>
