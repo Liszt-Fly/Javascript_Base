@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{import} \PYG{n+nx}{md} \PYG{k+kr}{from} \PYG{l+s+s2}{\PYGZdq{}./db.js\PYGZdq{}}\PYG{c+c1}{//默认导出}
+\PYG{c+c1}{//也可以结合别名进行使用}
+\PYG{k}{import} \PYG{n+nx}{md} \PYG{k+kr}{as} \PYG{n+nx}{markdown} \PYG{k+kr}{from} \PYG{l+s+s2}{\PYGZdq{}./db.js\PYGZdq{}}
+\end{Verbatim}

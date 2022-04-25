@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{}每一个模块都是一个顶级作用域，模块之间不能访问\PYGZhy{}\PYGZhy{}\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{script} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}module\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+  \PYG{k+kd}{let} \PYG{n+nx}{hd} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}houdunren.com\PYGZdq{}}\PYG{p}{;}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{script} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}module\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+  \PYG{n+nx}{alert}\PYG{p}{(}\PYG{n+nx}{hd}\PYG{p}{);} \PYG{c+c1}{// Error}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\end{Verbatim}

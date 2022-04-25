@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{script} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}module\PYGZdq{}} \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}module.js\PYGZgt{}\PYGZlt{}/script\PYGZgt{}}
+\PYG{l+s}{\PYGZlt{}script type=\PYGZdq{}}\PYG{n+na}{module}\PYG{err}{\PYGZdq{}} \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}module.js\PYGZgt{}\PYGZlt{}/script\PYGZgt{}}
+\PYG{l+s}{\PYGZlt{}script type=\PYGZdq{}}\PYG{n+na}{module}\PYG{err}{\PYGZdq{}} \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}module.js\PYGZgt{}\PYGZlt{}/script\PYGZgt{}}
+\PYG{l+s}{\PYGZlt{}script\PYGZgt{}}
+\PYG{l+s}{ import \PYGZdq{}}\PYG{err}{./}\PYG{n+na}{module}\PYG{err}{.}\PYG{n+na}{js}\PYG{err}{\PYGZdq{}}
+ \PYG{n+na}{import} \PYG{err}{\PYGZdq{}./}\PYG{n+na}{module}\PYG{err}{.}\PYG{n+na}{js}\PYG{err}{\PYGZdq{}}
+ \PYG{n+na}{import} \PYG{err}{\PYGZdq{}./}\PYG{n+na}{module}\PYG{err}{.}\PYG{n+na}{js}\PYG{err}{\PYGZdq{}}
+ \PYG{err}{//}\PYG{n+na}{无论引入多少次}\PYG{err}{，}\PYG{n+na}{都只会输出一次init}\PYG{err}{.....}
+\PYG{err}{\PYGZlt{}/}\PYG{n+na}{script}\PYG{p}{\PYGZgt{}}
+\end{Verbatim}

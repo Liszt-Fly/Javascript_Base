@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{function} \PYG{n+nx}{importSth}\PYG{p}{(}\PYG{n+nx}{path}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{import}\PYG{p}{(}\PYG{n+nx}{path}\PYG{p}{).}\PYG{n+nx}{then}\PYG{p}{((}\PYG{n+nx}{module}\PYG{p}{)} \PYG{o}{=} \PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}
+    \PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{n+nx}{module}\PYG{p}{)}
+  \PYG{p}{\PYGZcb{})}
+\PYG{p}{\PYGZcb{}}
+\PYG{n+nx}{importSth}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}./m13.js\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

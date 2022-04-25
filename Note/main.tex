@@ -1,0 +1,1097 @@
+
+\documentclass[
+	11pt,
+	fleqn,
+	a4paper,
+]{LegrandOrangeBook}
+
+% Book information for PDF metadata, remove/comment this block if not required
+\hypersetup{
+	pdftitle={Title}, % Title field
+	pdfauthor={Author}, % Author field
+	pdfsubject={Subject}, % Subject field
+	pdfkeywords={Keyword1, Keyword2, ...}, % Keywords
+	pdfcreator={LaTeX}, % Content creator field
+}
+
+\addbibresource{sample.bib} % Bibliography file
+
+\definecolor{ocre}{RGB}{243, 102, 25} % Define the color used for highlighting throughout the book
+
+\chapterimage{orange1.jpg} % Chapter heading image
+\chapterspaceabove{6.5cm} % Default whitespace from the top of the page to the chapter title on chapter pages
+\chapterspacebelow{6.75cm} % Default amount of vertical whitespace from the top margin to the start of the text on chapter pages
+\usepackage{tcolorbox}
+\usepackage{minted}
+\usepackage{ctex}
+\usepackage{fontspec}
+\usepackage{color}
+\usepackage{xeCJK}
+\usepackage{tikz}
+\definecolor{bg}{rgb}{1,1,1}
+
+%----------------------------------------------------------------------------------------
+\BeforeBeginEnvironment{minted}{\begin{tcolorbox}[colback=bg]}%
+	\AfterEndEnvironment{minted}{\end{tcolorbox}}%
+	\setmainfont[]{PingFang HK}
+	\setCJKmainfont{Heiti SC}
+\begin{document}
+
+\part{Linear List}
+
+
+\chapterimage{orange2.jpg} % Chapter heading image
+\chapterspaceabove{6.75cm} % Whitespace from the top of the page to the chapter title on chapter pages
+\chapterspacebelow{7.25cm} % Amount of vertical whitespace from the top margin to the start of the text on chapter pages
+\chapter{ 模块化编程}
+\section{为什么使用模块化编程}
+在项目体积变大的过程中，需要把不同的业务分割成多个文件，这就是模块的思想，模块是比函数和对象更大的单元，使用模块组织程序能够更好的维护程序和进行扩展。
+
+在生产环境中，一般使用打包工具如\underline{webpack},\underline{vite}等进行构建，这些工具提供了更多的功能。
+\begin{itemize}
+    \item 模块就是一个独立的文件，里面是函数或者类库
+    \item 虽然JS没有命名空间的概念，使用模块可以解决全局变量冲突
+    \item 模块需要隐藏内部实现，只对外开放需要使用的接口
+    \item 模块可以避免全局变量的滥用，造成代码不可控
+    \item 模块可以被不同的应用使用，从而提高编码效率
+\end{itemize}
+
+\section{开发一个模块化管理工具}
+在这里使用了立即执行函数来模拟模块(type="module"),因为一个函数都是一个独立的作用域，我们封装了模块内部的具体实现，只开放了模块的定义方法define，用于定义模块。只需要提供模块的名称，依赖的模块单元，以及对应的功能函数即可。
+\begin{minted}{js}
+let module = (function () {
+const moduleList = {}
+function define(name, modules, action) {
+modules.map((m, i) => {
+//将moduleList的真正模块传入modules
+modules[i] = moduleList[m]
+})
+//将modules传入作为参数传入action，并且放置到moduleList中去
+moduleList[name] = action.apply(null, modules)
+}
+return { define }
+})()
+\end{minted}
+只需要在Action中按顺序使用参数即可获取对应的依赖模块，从而可以使用对应的模块依赖。
+\begin{minted}{js}
+
+//定义第一个模块
+module.define("hd", [],
+function() {
+    return {
+        first(arr) {
+            return arr[0]
+        },
+        max(arr, key) {
+            return arr.sort((a, b) = >b[key] - a[key])[0]
+        }
+    }
+})
+//定义第二个模块
+
+module.define("lesson", ["hd"], function (hd) {
+let data = [
+	{ name: "js", price: 199 },
+	{ name: "mysql", price: 78 },
+	]
+console.log(hd.max(data, "price"))
+	})
+\end{minted}
+\section{模块的基本使用}
+在html中只需要在script标签中声明type='module'即可使用模块,使用export可以开放接口，使用import引入需要使用的内容。
+
+\begin{minted}{js}
+console.log("init....")
+let title = "后盾人"
+let url = "houdunren.com"
+function show() {
+	console.log(title + url)
+}
+export { title, show }
+\end{minted}
+
+\begin{minted}{html}
+    <html>
+    <head>
+     <script type="module">
+           import { title, show } from "./hd.js"
+           console.log(title)
+           show()
+       </script>
+    </head>
+    <body></body>
+   </html>
+\end{minted}
+
+模块最主要有四个特性:
+\begin{itemize}
+    \item 延迟解析
+    \item 严格模式
+    \item 块作用域
+    \item 预解析
+\end{itemize}
+严格模式非常好理解，在声明script为模块之后，整个环境都是严格模式，比如直接输出this,显示的结果为undefined。而延迟解析的含义是，无论模块声明的位置在哪儿，都会在html标签加载完成之后才进行加载。而块作用域特性的含义是每一个模块都是一个顶级作用域，不同模块之间不能进行互相访问。预解析的特性是指模块无论导入多少次，之后的导入都不会再执行模块中的代码，而是共享第一次执行的结果。
+\begin{minted}{html}
+<!--每一个模块都是一个顶级作用域，模块之间不能访问-->
+<script type="module">
+  let hd = "houdunren.com";
+</script>
+
+<script type="module">
+  alert(hd); // Error
+</script>
+\end{minted}
+
+\begin{minted}{js}
+//这是一个模块
+console.log("init.....")
+let show=()=>{console.log(1)}
+\end{minted}
+\begin{minted}{html}
+<script type="module" src="module.js></script>
+<script type="module" src="module.js></script>
+<script type="module" src="module.js></script>
+<script>
+ import "./module.js"
+ import "./module.js"
+ import "./module.js"
+ //无论引入多少次，都只会输出一次init.....
+</script>
+\end{minted}
+\section{模块的导入导出}
+模块导入导出的方法多种多样，如具名导入导出，批量导入，使用别名进行导入导出，默认导入和导出以及混合导入和导出,在本节中将一一进行讲解。
+\subsection{具名导入和导出}
+具名导入和导出指的是精准开放需要使用的变量或者函数。
+\begin{minted}{js}
+let a=1;
+let b=2;
+let c=()=>{console.log(1)}
+export {a,b} //精准导出，导入情况和导出一样
+\end{minted}
+\subsection{批量导入和使用别名}
+批量导入使用*进行导入,比如 import * from "./db.js"，为了使用方便，我们可以使用为import * as api from "./db.js"
+\begin{minted}{js}
+let a=1;
+let b=2;
+let c=;3
+export {a,b,c}
+//当然在export中也可以使用别名 export {a as balabala}
+\end{minted}
+\begin{minted}{html}
+    <script type="module">
+    import * as api from "./db.js"
+    console.log(api.a)//1
+    console.log(api.b)//2
+    console.log(api.c)//3
+    </script>
+\end{minted}
+\begin{remark}
+    特别注意，一般情况下不需要使用批量导入，因为使用webpack的时候，使用批量导入，打包工具会默认会需要使用所有的模块内的函数，每一个都会被打包进来，从而会增大项目的体积。
+\end{remark}
+\subsection{默认导入和导出}
+默认导入和导出有些方面是不同的，需要分别进行讲解。而且默认导出和导入只有一个
+\begin{minted}{js}
+//方式1 直接使用export default关键字
+export default class Test{
+    static const version=1.0
+}
+//方式2 as default
+class Test{
+    static const version=1.0
+}
+export {Test as default}
+\end{minted}
+进行导入的时候可以使用任意名字进行接收，因为默认导出的内容只有一个，但是建议使用更加合理相关的名称进行接收，增加可读性。
+\begin{minted}{js}
+import md from "./db.js"//默认导出
+//也可以结合别名进行使用
+import md as markdown from "./db.js"
+\end{minted}
+\subsection{混合导入和导出}
+由于默认导出和具名导出是互不影响的，所以可以一起使用，使用任意一个名称来接受默认导出的内容，使用\{\}来接收具名导出的内容。
+\begin{minted}{js}
+//导出
+export default class Test{
+    static const version=1.0
+}
+let a=1;
+let b=2;
+export{a,b}
+//导入 test接收默认导出的内容
+import test,{a,b} from "./db.js"
+\end{minted}
+
+\section{按需动态加载模块}
+使用import函数可以不在script的头部进行模块加载，而是进行动态加载，按需加载。这个函数是一个Promise，使用import传入路径，使用then可以接收到加载得到的模块。
+\begin{minted}{js}
+function importSth(path) {
+  import(path).then((module) = >{
+    console.log(module)
+  })
+}
+importSth("./m13.js")
+\end{minted}
+\chapter{Array}
+\section{Overview of Array}
+在本节中，我们首先来思考一下数组是什么？
+\vspace*{0.5cm}
+\par
+\begin{tikzpicture}
+    \node (rect) at (0,0) [draw, thick, fill=orange, fill opacity=0.7,
+        minimum width=1cm,minimum height=1cm] {$3$};
+    \node (rect) at (1,0) [draw, thick, fill=orange, fill opacity=0.7,
+        minimum width=1cm,minimum height=1cm] {$1$};
+    \node (rect) at (2,0) [draw, thick, fill=orange, fill opacity=0.7,
+        minimum width=1cm,minimum height=1cm] {$4$};
+    \node (rect) at (3,0) [draw, thick, fill=orange, fill opacity=0.7,
+        minimum width=1cm,minimum height=1cm] {$5$};
+    \node (rect) at (4,0) [draw, thick, fill=orange, fill opacity=0.7,
+        minimum width=1cm,minimum height=1cm] {$6$};
+    \node (rect) at (5,0) [draw, thick, fill=orange, fill opacity=0.7,
+        minimum width=1cm,minimum height=1cm] {$7$};
+\end{tikzpicture}
+
+这是一个数组:[3,1,4,5,6,7],它本质上就是在一段连续的内存片段上存储的一串数据,由于int占了四个字节，所以每一个数组元素的地址相差四位。
+
+接下来分析数组中常见的操作的算法复杂度:
+\begin{itemize}
+    \item Lookup O(1) 根据索引去查找元素，由于数组中可以通过中括号访问符进行访问，所以不论访问哪一个元素，算法复杂度均为O(1)
+    \item Insert O(n) 进行元素插入，如果在末尾进行元素插入，算法复杂度为O(1),但是如果在第一位插入，我们就需要将每一位都往后挪动一位，所以复杂度为O(n)，通常我们都考虑最坏的情况，所以算法复杂度为O(n)
+    \item Delete O(n) 无论删除哪一个元素，其他元素都需要往前移动一位，所以最终算法复杂度为O(n)
+\end{itemize}
+\section{Practice: To create an Array Class with Java}
+
+\begin{example}
+    在Java中，创建一个MikeArray类型，要求要满足以下几点,1.具有insert方法，可以在数组末尾插入元素，2.具有removeAt(int index)方法，在index处删除对应的元素,3.实现print方法，打印出数组中所有的元素 4. indexOf方法，返回目标元素第一次出现在数组中的索引，如果没有出现元素，则返回索引-1，4.动态扩充，在使用insert方法的时候如果超出了数组本身的长度，扩容到原数组容量的2倍,5.构造方法是给出数组的长度length进行数组构造的。
+\end{example}
+\begin{minted}[]{java}
+public class MArray {
+    private int[]items;
+    private int count=0;
+    public MArray(int length){
+        items=new int[length];
+    }
+
+    public void print(){
+        for(int i=0;i<count;i++){
+            System.out.println(items[i]);
+        }
+    }
+
+    public void insert(int element){
+        //if the array is full
+        if(items.length==count){
+            //Create a new array (twice the size)
+            int array[]=new int[count*2];
+            //Copy all the items into new Array
+            for(int i=0;i<count;i++){
+                array[i]=items[i];
+            }
+            //set the items to the new array
+            items=array;
+        }
+        items[count++]=element;
+    }
+
+
+
+}
+
+\end{minted}
+
+\begin{minted}[]{java}
+	    public void removeAt(int index){
+            if(index<0||index>=count){
+               throw new IllegalArgumentException();
+            }
+            else{
+                //[10,20,30,40]
+                // index:1
+                for(int i=index;i<count;i++){
+                items[i]=items[i+1];
+                }
+                count--;
+            }
+    }
+
+    public int indexOf(int item){
+        //获取元素的位置
+        //肯定是有可能遍历完整个都没有存在的
+        for(int i=0;i<count;i++){
+            if(items[i]==item){
+                return i;
+            }
+
+        }
+        return -1;
+    }
+\end{minted}
+
+\chapter{LinkedList}
+\section{Overview of LinkedList}
+链表是由一串节点(Node)连接而成,这个节点由两部分组成，一部分是数据Data,另外一部分是指针Pointer,每一个Node的指针都指向了下一个节点。
+一般的链表具有头节点，当然也有的具有尾节点，除了一般的单向链表，还有一种双向链表，在双向链表中每一个节点都具有两个指针，一个指向之前的节点，一个指向了之后的节点。但是总体上来说，链表的结构都大同小异。
+
+\begin{center}
+    \includegraphics[scale=0.8]{Images/linked-list.jpg}
+\end{center}
+\section{LinkedList In Java}
+在Java中就有LinkedList，常用的方法有:
+\begin{itemize}
+    \item addFirst 在链表首添加元素
+    \item addLast 在链表尾部添加元素
+    \item contains 是否包含元素
+    \item isEmpty 判断链表是否为空
+    \item indexOf 返回链表中某一元素的位置
+\end{itemize}
+这些方法都是由Java内部进行实现的，我们直接引入LinkedList这个类即可直接使用，当然在下一节中，我们将开始写属于我们自己的链表(MikeLinkedList)。
+
+\begin{minted}[]{java}
+        LinkedList<Integer>linkedList=new LinkedList<>();
+        linkedList.addFirst(10);
+        linkedList.addFirst(10);
+        linkedList.addFirst(10);
+        System.out.println(linkedList.indexOf(10));
+        System.out.println(linkedList.contains(10));
+        System.out.println(linkedList.isEmpty());
+        linkedList.addLast(29);
+        System.out.println(linkedList);
+\end{minted}
+
+\section{MikeLinkedList的搭建1:完成Node Class的实现与MikeLInkedList的基础}
+在第一节中我们说明了链表是由一个一个节点组成的，所以首先实现一个Node Class(Integer整型)，使用整数进行示范，不设置为泛型。
+\begin{minted}[]{java}
+public class Node {
+    public Node(int value){
+        this.value=value;
+    }
+
+    public int value;//当前节点的值
+    public Node next;//指向下一个节点的指针
+}
+\end{minted}
+然后完成MikeLinkedList的搭建，这个链表首先要两个节点，一个是首节点，一个是尾节点，还需要设置一个size属性，记录链表的长度。
+\begin{minted}[]{java}
+public class MikeLinkedList{
+	//头节点p
+	private Node First;
+	private Ndoe Last;
+	private int Size;
+}
+\end{minted}
+
+\section{MikeLinkedList的搭建2:实现具体的方法}
+在实现过程中，要考虑极限情况，没有元素的时候，只有一个元素的时候。
+\subsection{addFirst}
+实现方法很简单，新建一个节点，将它标记为头节点，然后把它的next指针指向原本的头节点即可，算法复杂度$O_n=1$
+\begin{minted}{java}
+  public void addFirst(int value) {
+        var node = new Node(value);
+        //当前链表是否为空
+        if (isEmpty()) {
+            First = Last = node;
+        } else {
+            var temp = First;
+            First = node;
+            First.next = temp;
+            size++;
+        }
+
+    }
+\end{minted}
+\subsection{addLast}
+addLast方法也非常简单，只需要设置将最后一个节点的next指向新节点，然后将Last标记为最后一个节点即可，算法复杂度为$O_n=1$
+\begin{minted}{java}
+	public void addLast(int value) {
+        var node = new Node(value);
+        if (isEmpty()) {
+            First = Last = node;
+        } else {
+            Last.next = node;
+            Last = node;
+
+        }
+        size++;
+    }
+\end{minted}
+\subsection{isEmpty}
+isEmpty只需要判断头节点是否为空，如果为空的话就说明这个链表为空，非常简单
+\begin{minted}{java}
+private boolean isEmpty() {
+        return First == null;
+    }
+\end{minted}
+\subsection{indexOf}
+实现indexOf方法只需要从链表头开始遍历，直到发现某个节点的value和目标节点的value是一样的，如果一样就返回对应的index，如果遍历完整个链表都没有发现目标，则返回-1。由于在最坏的情况需要完整遍历一遍链表，所以算法复杂度为$O_n=n$。
+\begin{minted}{java}
+    public int indexOf(int value) {
+        if (isEmpty()) {
+            return -1;
+        } else {
+            var cur = First;
+            var index = 0;
+            while (cur != null) {
+                if (cur.value == value) {
+                    return index;
+                }
+                index++;
+                cur = cur.next;
+            }
+        }
+        return -1;
+    }
+\end{minted}
+\subsection{contains}
+contains方法的实现在indexOf写过之后就变得非常简单，只需要执行一次indexOf方法，如果返回的是-1,则表示不包含，返回false，否则返回true
+\begin{minted}{java}
+    public boolean contains(int value) {
+        return indexOf(value) != -1;
+    }
+\end{minted}
+\subsection{removeFirst}
+removeFirst方法的核心是将第二个节点设置为First,然后将第一个节点解除关联。
+\begin{minted}{java}
+    public void removeFirst() {
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        if (First.next == null) {
+            First = Last = null;
+            return;
+        } else {
+            var second = First.next;
+            First.next = null;
+            First = second;
+        }
+        size--;
+    }
+\end{minted}
+\subsection{removeLast}
+要实现removeLast稍微比removeFirst难一些，因为我们的思路应该还是找到Last之前的那个节点，然后把最后一个节点引用解除，设置倒数第二个节点为Last即可。但是如何获取倒数第二个节点？我们可以先写一个getPrevious的函数，然后再写这个函数
+\begin{minted}{java}
+    public Node getPrevious(Node node) {
+        var current = First;
+        while (current != null) {
+            if (current.next == node) {
+                return current;
+            }
+            current = current.next;
+        }
+        return null;
+    }
+\end{minted}
+\begin{minted}{java}
+    public void removeLast() {
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        } else if (First == Last) {
+            First = Last = null;
+        } else {
+            var previous = getPrevious(Last);
+            Last = previous;
+            Last.next = null;
+        }
+        size--;
+    }
+\end{minted}
+\subsection{toArray}
+将链表转为数组，方法很简单，遍历一遍，把链表的元素装数组里即可
+\begin{minted}{java}
+    public int[] toArray() {
+        int[] array = new int[size];
+        var cur = First;
+        var index = 0;
+        while (cur != null) {
+            array[index] = cur.value;
+            cur = cur.next;
+            index++;
+        }
+        return array;
+    }
+\end{minted}
+\section{练习题1:反转链表}
+\begin{example}
+    将链表反转，比如10->20->30->40->50反转为50->40->30->20->10。
+    仔细思考，该题并不难，我们发现其实就是将链表的箭头顺序反转了，本质上就是10<-20<-30<-40<-50,每一个指针都指向了之前的指针，所以我们只需要构造一个previous指针指向前一个节点即可
+    \begin{minted}{java}
+	    public void reverse() {
+        //first second
+        //previous current
+        var previous = First;
+        var current = First.next;
+        Last = First;
+        Last.next = null;
+        while (current != null) {
+            var next = current.next;
+            current.next = previous;
+            previous = current;
+            current = next;
+
+        }
+        First = previous;
+
+    }
+\end{minted}
+\end{example}
+\section{练习题2:寻找倒数第K个链表节点}
+\begin{example}
+    题目要求不允许直接遍历一整遍链表，然后获取对应的节点，我们使用快慢双指针来解决问题：快指针在一开始的时候就进行向前推进，当推进了K步之后慢指针开始运行，当快指针遍历完链表的时候，慢指针指向的节点就是对应的倒数第K个节点。
+\end{example}
+\begin{minted}{java}
+    public int getKthFromTheEnd(int k) {
+        if (isEmpty()) {
+            throw new IllegalStateException();
+        }
+        if (k > size || k <= 0) {
+            throw new IllegalArgumentException();
+        }
+        //声明快指针
+        var a = First;
+        //声明慢指针
+        var b = First;
+        for (int i = 0; i < k - 1; i++) {
+            //先让a走k步
+            a = a.next;
+        }
+        while (a != Last) {
+            a = a.next;
+            b = b.next;
+        }
+        return b.value;
+    }
+\end{minted}
+\chapter{Stack}
+\section{Overview of Stack}
+栈是一种很常见的数据结构,它遵循先入后出(FILO)的原则，先入栈的元素反而最后出栈，所以对于一些需要进行反转数据顺序的操作使用栈是非常适合的。
+\begin{center}
+    \includegraphics[scale=0.5]{Images/stack.png}
+\end{center}
+举一个非常通俗易懂的例子:吃薯片。我们按照顺序向薯片口袋装入薯片，先吃掉的反而是最后装入的薯片。
+还有web开发中的路由跳转，每次跳转路由，我们都将对应的路由压入栈中，当我们要进行路由回退操作的时候，回退的都是最后压入的路由
+
+\section{Stack in Java}
+在Java中有对应的Stack类型，它主要的方法是push入栈，pop出栈，peek方法用于查看位于栈顶的元素，但是不会弹出，empty方法用于判断这个stack是否为空
+\begin{minted}{java}
+Stack<Integer> stack = new Stack<>();
+stack.push(1);
+stack.push(2);
+stack.push(3);
+System.out.println(stack);//[1,2,3]
+System.out.println(stack.pop());//3
+System.out.println(stack.peek());//2
+System.out.println(stack.empty());//false
+\end{minted}
+\section{MikeStack的实现}
+MikeStack的内部，我们使用数组来实现，但是使用数组来实现难免会出现一些问题。问题一：Java实现的Stack不会出现栈满的问题，但是我们使用数组来实现，必然会会遇到数组元素占满，为了简便不对数组进行复制然后扩充，而是抛出一个异常状态。问题二：使用数组实现，在数组没有填满的时候，比如容量为5，填充三个元素的时候，输出必然为[1,2,3,0,0],这样是不像java中栈的实现的，所以我们使用一个counter计数器，只输出真正有值的部分。
+gg
+对于push,pop,peek方法都需要进行临界情况的判定，如果count==0的时候，我们需要抛出一个IllegalStateExceptio异常。
+
+\begin{minted}{java}
+    public class MikeStack {
+    private final int[]array=new int[5];
+    private int pointer=0;
+}
+\end{minted}
+\begin{minted}{java}
+    public void push(int item){
+        if(pointer>=array.length){
+            throw new IllegalStateException();
+        }
+        array[pointer++]=item;
+    }
+    public int pop(){
+        if(pointer==0){
+            throw new IllegalStateException();
+        }
+        return array[--pointer];
+    }
+    public int peek(){
+        if(pointer==0){
+            throw new IllegalStateException();
+        }
+        return array[pointer-1];
+    }
+    public String toArray(){
+
+        return Arrays.toString(Arrays.copyOfRange(array,0,pointer));
+    }
+\end{minted}
+\section{练习题1:反转字符串}
+\begin{example}
+    现在有一个字符串Hello,World，我们需要写一个方法来反转这个字符串。由于在前文中提过，由于Stack的特性，很容易进行一些反转操作，所以我们使用Stack来完成这一题
+    \begin{minted}{java}
+    public static String reverseString(String str){
+        if(str==null){
+            throw new IllegalArgumentException();
+        }
+        var stack=new Stack<Character>();
+        for(char c :str.toCharArray()){
+            stack.push(c);
+        }
+        StringBuilder stringBuilder=new StringBuilder("");
+        while(!stack.empty()){
+            stringBuilder.append(stack.pop());
+        }
+        return stringBuilder.toString();
+    }
+    \end{minted}
+    从入栈到出栈就会导致数据以相反的顺序输出出来，所以我们只需要将数据压入栈中，最后再使用pop依次出栈即可。
+\end{example}
+\section{练习题2:判断表达式的平衡}
+\begin{example}
+    该题相较于上题来说，比较复杂。表达式中的符号有\{,(,<,[一共四种符号。
+    \begin{itemize}
+        \item \{1+2+3\} 平衡
+        \item >1231< 不平衡
+        \item <\{1+2+3\}> 平衡
+        \item <\{1+2)\} 不平衡
+    \end{itemize}
+    一次性考虑所有的情况，比较复杂，所以我们首先考虑只有()的情况，遇到开始符号入栈，遇到结尾符号出栈，最后栈里是空的，那么就平衡。在考虑清楚单一情况之后，我们考虑所有的情况，可以将这些符号分别录入两个数组，但是一定要注意顺序对应，两个数组AB,A[1]和B[1]才是完全对应的。
+    \begin{minted}{java}
+public class Expression {
+    private  List<Character> leftBracket =
+     Arrays.asList('(','<','[','{');
+    private  List<Character> rightBracket =
+    Arrays.asList(')','>',']','}');
+    String str;
+
+    public Expression(String str) {
+        this.str = str;
+    }
+    private boolean isLeftBracket(char c){
+        return  leftBracket.contains(c);
+    }
+    private boolean matchBracket(char left,char top){
+       return  leftBracket.indexOf(left)==rightBracket.indexOf(top);
+
+    }
+    private boolean isRightBracket(char c){
+        return rightBracket.contains(c);
+    }
+    public boolean bBalancedEquation() {
+        var stack = new Stack<Character>();
+        for (char c : str.toCharArray()) {
+            if (isLeftBracket(c)) {
+                stack.push(c);
+            }
+            if (isRightBracket(c)) {
+                if (stack.empty()) return false;
+                char top = stack.pop();
+                if (matchBracket(c,top)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+
+    \end{minted}
+\end{example}
+\part{Part One Title}
+
+%----------------------------------------------------------------------------------------
+%	SECTIONING EXAMPLES CHAPTER
+%----------------------------------------------------------------------------------------
+
+\chapterimage{orange2.jpg} % Chapter heading image
+\chapterspaceabove{6.75cm} % Whitespace from the top of the page to the chapter title on chapter pages
+\chapterspacebelow{7.25cm} % Amount of vertical whitespace from the top margin to the start of the text on chapter pages
+
+%------------------------------------------------
+
+\chapter{Sectioning Examples}\index{Sectioning}
+
+\section{Section Title}\index{Sectioning!Sections}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit\footnote{Footnote example text\ldots Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor arcu luctus, imperdiet urna iaculis, mattis eros. Pellentesque iaculis odio vel nisl ullamcorper, nec faucibus ipsum molestie.}. Praesent porttitor arcu luctus, imperdiet urna iaculis, mattis eros. Pellentesque iaculis odio vel nisl ullamcorper, nec faucibus ipsum molestie. Sed dictum nisl non aliquet porttitor. Etiam vulputate arcu dignissim, finibus sem et, viverra nisl. Aenean luctus congue massa, ut laoreet metus ornare in. Nunc fermentum nisi imperdiet lectus tincidunt vestibulum at ac elit. Nulla mattis nisl eu malesuada suscipit.
+
+Aliquam arcu turpis, ultrices sed luctus ac, vehicula id metus. Morbi eu feugiat velit, et tempus augue. Proin ac mattis tortor. Donec tincidunt, ante rhoncus luctus semper, arcu lorem lobortis justo, nec convallis ante quam quis lectus. Aenean tincidunt sodales massa, et hendrerit tellus mattis ac. Sed non pretium nibh. Donec cursus maximus luctus. Vivamus lobortis eros et massa porta porttitor.
+
+\subsection{Subsection Title}\index{Sectioning!Subsections}
+
+Fusce varius orci ac magna dapibus porttitor. In tempor leo a neque bibendum sollicitudin. Nulla pretium fermentum nisi, eget sodales magna facilisis eu. Praesent aliquet nulla ut bibendum lacinia. Donec vel mauris vulputate, commodo ligula ut, egestas orci. Suspendisse commodo odio sed hendrerit lobortis. Donec finibus eros erat, vel ornare enim mattis et. Donec finibus dolor quis dolor tempus consequat. Mauris fringilla dui id libero egestas, ut mattis neque ornare. Ut condimentum urna pharetra ipsum consequat, eu interdum elit cursus. Vivamus scelerisque tortor et nunc ultricies, id tincidunt libero pharetra. Aliquam eu imperdiet leo. Morbi a massa volutpat velit condimentum convallis et facilisis dolor.
+
+In hac habitasse platea dictumst. Curabitur mattis elit sit amet justo luctus vestibulum. In hac habitasse platea dictumst. Pellentesque lobortis justo enim, a condimentum massa tempor eu. Ut quis nulla a quam pretium eleifend nec eu nisl. Nam cursus porttitor eros, sed luctus ligula convallis quis. Nam convallis, ligula in auctor euismod, ligula mauris fringilla tellus, et egestas mauris odio eget diam. Praesent sodales in ipsum eu dictum. Mauris interdum porttitor fringilla. Proin tincidunt sodales leo at ornare. Donec tempus magna non mauris gravida luctus. Cras vitae arcu vitae mauris eleifend scelerisque. Nam sem sapien, vulputate nec felis eu, blandit convallis risus. Pellentesque sollicitudin venenatis tincidunt. In et ipsum libero.
+
+\subsubsection{Subsubsection Title} \index{Sectioning!Subsubsections}
+
+Maecenas consectetur metus at tellus finibus condimentum. Proin arcu lectus, ultrices non tincidunt et, tincidunt ut quam. Integer luctus posuere est, non maximus ante dignissim quis. Nunc a cursus erat. Curabitur suscipit nibh in tincidunt sagittis. Nam malesuada vestibulum quam id gravida. Proin ut dapibus velit. Vestibulum eget quam quis ipsum semper convallis. Duis consectetur nibh ac diam dignissim, id condimentum enim dictum. Nam aliquet ligula eu magna pellentesque, nec sagittis leo lobortis. Aenean tincidunt dignissim egestas. Morbi efficitur risus ante, id tincidunt odio pulvinar vitae.
+
+\paragraph{Paragraph Title}\index{Sectioning!Paragraphs} Nullam mollis tellus lorem, sed congue ipsum euismod a. Donec pulvinar neque sed ligula ornare sodales. Nulla sagittis vel lectus nec laoreet. Nulla volutpat malesuada turpis at ultricies. Ut luctus velit odio, sagittis volutpat erat aliquet vel. Donec ac neque eget neque volutpat mollis. Vestibulum viverra ligula et sapien bibendum, vel vulputate ex euismod. Curabitur nec velit velit. Aliquam vulputate lorem elit, id tempus nisl finibus sit amet. Curabitur ex turpis, consequat at lectus id, imperdiet molestie augue. Curabitur eu eros molestie purus commodo hendrerit. Quisque auctor ipsum nec mauris malesuada, non fringilla nibh viverra. Quisque gravida, metus quis semper pulvinar, dolor nisl suscipit leo, vestibulum volutpat ante justo ultrices diam. Sed id facilisis turpis, et aliquet eros.
+
+In malesuada ullamcorper urna, sed dapibus diam sollicitudin non. Donec elit odio, accumsan ac nisl a, tempor imperdiet eros. Donec porta tortor eu risus consequat, a pharetra tortor tristique. Morbi sit amet laoreet erat. Morbi et luctus diam, quis porta ipsum. Quisque libero dolor, suscipit id facilisis eget, sodales volutpat dolor. Nullam vulputate interdum aliquam. Mauris id convallis erat, ut vehicula neque. Sed auctor nibh et elit fringilla, nec ultricies dui sollicitudin. Vestibulum vestibulum luctus metus venenatis facilisis. Suspendisse iaculis augue at vehicula ornare. Sed vel eros ut velit fermentum porttitor sed sed massa. Fusce venenatis, metus a rutrum sagittis, enim ex maximus velit, id semper nisi velit eu purus.
+
+%------------------------------------------------
+
+\section*{Unnumbered Section}
+
+\subsection*{Unnumbered Subsection}
+
+\subsubsection*{Unnumbered Subsubsection}
+
+%----------------------------------------------------------------------------------------
+%	IN-TEXT ELEMENT EXAMPLES CHAPTER
+%----------------------------------------------------------------------------------------
+
+\chapter{In-text Element Examples}
+
+\section{Referencing Publications}\index{Citation}
+
+This statement requires citation \cite{Smith:2022jd}; this one is more specific \cite[162]{Smith:2021qr}.
+
+%------------------------------------------------
+
+\section{Link Examples}\index{Links}
+
+This is a URL link: \href{https://www.latextemplates.com}{LaTeX Templates}. This is an email link: \href{mailto:example@example.com}{example@example.com}. This is a monospaced URL link: \url{https://www.LaTeXTemplates.com}.
+
+%------------------------------------------------
+
+\section{Lists}\index{Lists}
+
+Lists are useful to present information in a concise and/or ordered way.
+
+\subsection{Numbered List}\index{Lists!Numbered List}
+
+\begin{enumerate}
+    \item First numbered item
+          \begin{enumerate}
+              \item First indented numbered item
+              \item Second indented numbered item
+                    \begin{enumerate}
+                        \item First second-level indented numbered item
+                    \end{enumerate}
+          \end{enumerate}
+    \item Second numbered item
+    \item Third numbered item
+\end{enumerate}
+
+\subsection{Bullet Point List}\index{Lists!Bullet Points}
+
+\begin{itemize}
+    \item First bullet point item
+          \begin{itemize}
+              \item First indented bullet point item
+              \item Second indented bullet point item
+                    \begin{itemize}
+                        \item First second-level indented bullet point item
+                    \end{itemize}
+          \end{itemize}
+    \item Second bullet point item
+    \item Third bullet point item
+\end{itemize}
+
+\subsection{Descriptions and Definitions}\index{Lists!Descriptions and Definitions}
+
+\begin{description}
+    \item[Name] Description
+    \item[Word] Definition
+    \item[Comment] Elaboration
+\end{description}
+
+%------------------------------------------------
+
+\section{International Support}
+
+àáâäãåèéêëìíîïòóôöõøùúûüÿýñçčšž
+
+\noindent ÀÁÂÄÃÅÈÉÊËÌÍÎÏÒÓÔÖÕØÙÚÛÜŸÝÑ
+
+\noindent ßÇŒÆČŠŽ
+
+%------------------------------------------------
+
+\section{Ligatures}
+
+fi fj fl ffl ffi Ty
+
+%----------------------------------------------------------------------------------------
+%	PART
+%----------------------------------------------------------------------------------------
+
+\part{Part Two Title}
+
+%----------------------------------------------------------------------------------------
+%	MATHEMATICS EXAMPLES CHAPTER
+%----------------------------------------------------------------------------------------
+
+\chapter{Mathematics}
+
+\section{Theorems}\index{Theorems}
+
+\subsection{Several equations}\index{Theorems!Several Equations}
+
+This is a theorem consisting of several equations.
+
+\begin{theorem}[Name of the theorem] % Specify a name/title in square brackets, or leave them out for no title
+    In $E=\mathbb{R}^n$ all norms are equivalent. It has the properties:
+    \begin{align}
+         & \big| ||\mathbf{x}|| - ||\mathbf{y}|| \big|\leq || \mathbf{x}- \mathbf{y}||                            \\
+         & ||\sum_{i=1}^n\mathbf{x}_i||\leq \sum_{i=1}^n||\mathbf{x}_i||\quad\text{where $n$ is a finite integer}
+    \end{align}
+\end{theorem}
+
+\subsection{Single Line}\index{Theorems!Single Line}
+
+This is a theorem consisting of just one line.
+
+\begin{theorem} % Specify a name/title in square brackets, or leave them out for no title
+    A set $\mathcal{D}(G)$ in dense in $L^2(G)$, $|\cdot|_0$.
+\end{theorem}
+
+%------------------------------------------------
+
+\section{Definitions}\index{Definitions}
+
+A definition can be mathematical or it could define a concept.
+
+\begin{definition}[Definition name] % Specify a name/title in square brackets, or leave them out for no title
+    Given a vector space $E$, a norm on $E$ is an application, denoted $||\cdot||$, $E$ in $\mathbb{R}^+=[0,+\infty[$ such that:
+    \begin{align}
+         & ||\mathbf{x}||=0\ \Rightarrow\ \mathbf{x}=\mathbf{0}        \\
+         & ||\lambda \mathbf{x}||=|\lambda|\cdot ||\mathbf{x}||        \\
+         & ||\mathbf{x}+\mathbf{y}||\leq ||\mathbf{x}||+||\mathbf{y}||
+    \end{align}
+\end{definition}
+
+%------------------------------------------------
+
+\section{Notations}\index{Notations}
+
+\begin{notation} % Specify a name/title in square brackets, or leave them out for no title
+    Given an open subset $G$ of $\mathbb{R}^n$, the set of functions $\varphi$ are:
+    \begin{enumerate}
+        \item Bounded support $G$;
+        \item Infinitely differentiable;
+    \end{enumerate}
+    a vector space is denoted by $\mathcal{D}(G)$.
+\end{notation}
+
+%------------------------------------------------
+
+\section{Remarks}\index{Remarks}
+
+This is an example of a remark.
+
+\begin{remark}
+    The concepts presented here are now in conventional employment in mathematics. Vector spaces are taken over the field $\mathbb{K}=\mathbb{R}$, however, established properties are easily extended to $\mathbb{K}=\mathbb{C}$.
+\end{remark}
+
+%------------------------------------------------
+
+\section{Corollaries}\index{Corollaries}
+
+\begin{corollary}[Corollary name] % Specify a name/title in square brackets, or leave them out for no title
+    The concepts presented here are now in conventional employment in mathematics. Vector spaces are taken over the field $\mathbb{K}=\mathbb{R}$, however, established properties are easily extended to $\mathbb{K}=\mathbb{C}$.
+\end{corollary}
+
+%------------------------------------------------
+
+\section{Propositions}\index{Propositions}
+
+\subsection{Several equations}\index{Propositions!Several Equations}
+
+\begin{proposition}[Proposition name] % Specify a name/title in square brackets, or leave them out for no title
+    It has the properties:
+    \begin{align}
+         & \big| ||\mathbf{x}|| - ||\mathbf{y}|| \big|\leq || \mathbf{x}- \mathbf{y}||                            \\
+         & ||\sum_{i=1}^n\mathbf{x}_i||\leq \sum_{i=1}^n||\mathbf{x}_i||\quad\text{where $n$ is a finite integer}
+    \end{align}
+\end{proposition}
+
+\subsection{Single Line}\index{Propositions!Single Line}
+
+\begin{proposition} % Specify a name/title in square brackets, or leave them out for no title
+    Let $f,g\in L^2(G)$; if $\forall \varphi\in\mathcal{D}(G)$, $(f,\varphi)_0=(g,\varphi)_0$ then $f = g$.
+\end{proposition}
+
+%------------------------------------------------
+
+\section{Examples}\index{Examples}
+
+\subsection{Equation Example}\index{Examples!Equation}
+
+\begin{example} % Specify a name/title in square brackets, or leave them out for no title
+    Let $G=\{x\in\mathbb{R}^2:|x|<3\}$ and denoted by: $x^0=(1,1)$; consider the function:
+    \begin{equation}
+        f(x)=\left\{\begin{aligned}                                                                                                                                                                                                                                                                                            & \mathrm{e}^{|x|} &  & \text{si $|x-x^0|\leq 1/2$} \\
+                                                                                                                                                                                                                                                                                                           & 0                &  & \text{si $|x-x^0|> 1/2$}\end{aligned}\right.
+    \end{equation}
+    The function $f$ has bounded support, we can take $A=\{x\in\mathbb{R}^2:|x-x^0|\leq 1/2+\epsilon\}$ for all $\epsilon\in\mathopen{]}0\,;5/2-\sqrt{2}\mathclose{[}$.
+\end{example}
+
+\subsection{Text Example}\index{Examples!Text}
+
+\begin{example}[Example name] % Specify a name/title in square brackets, or leave them out for no title
+    Aliquam arcu turpis, ultrices sed luctus ac, vehicula id metus. Morbi eu feugiat velit, et tempus augue. Proin ac mattis tortor. Donec tincidunt, ante rhoncus luctus semper, arcu lorem lobortis justo, nec convallis ante quam quis lectus. Aenean tincidunt sodales massa, et hendrerit tellus mattis ac. Sed non pretium nibh. Donec cursus maximus luctus. Vivamus lobortis eros et massa porta porttitor.
+\end{example}
+
+%------------------------------------------------
+
+\section{Exercises}\index{Exercises}
+
+\begin{exercise} % Specify a name/title in square brackets, or leave them out for no title
+    This is a good place to ask a question to test learning progress or further cement ideas into students' minds.
+\end{exercise}
+
+%------------------------------------------------
+
+\section{Problems}\index{Problems}
+
+\begin{problem} % Specify a name/title in square brackets, or leave them out for no title
+What is the average airspeed velocity of an unladen swallow?
+\end{problem}
+
+%------------------------------------------------
+
+\section{Vocabulary}\index{Vocabulary}
+
+Define a word to improve a students' vocabulary.
+
+\begin{vocabulary}[Word] % Specify a name/title in square brackets, or leave them out for no title
+    Definition of word.
+\end{vocabulary}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTING INFORMATION/RESULTS EXAMPLES CHAPTER
+%----------------------------------------------------------------------------------------
+
+\chapterimage{orange3.jpg} % Chapter heading image
+\chapterspaceabove{6.25cm} % Whitespace from the top of the page to the chapter title on chapter pages
+\chapterspacebelow{7.5cm} % Amount of vertical whitespace from the top margin to the start of the text on chapter pages
+
+%------------------------------------------------
+
+\chapter{Presenting Information and Results with a Long Chapter Title}
+
+\section{Table}\index{Table}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor arcu luctus, imperdiet urna iaculis, mattis eros. Pellentesque iaculis odio vel nisl ullamcorper, nec faucibus ipsum molestie. Sed dictum nisl non aliquet porttitor. Etiam vulputate arcu dignissim, finibus sem et, viverra nisl. Aenean luctus congue massa, ut laoreet metus ornare in. Nunc fermentum nisi imperdiet lectus tincidunt vestibulum at ac elit. Nulla mattis nisl eu malesuada suscipit.
+
+\begin{table}[H] % Use [H] to suppress floating and place the figure/table exactly where it is specified in the text
+    \centering % Horizontally center the table on the page
+    \begin{tabular}{L{0.15\textwidth} R{0.15\textwidth} R{0.15\textwidth}} % Specify column alignment with L{width}, C{width} and R{width} for fixed-width columns, or the default latex l, c and r for flexible-width columns
+        \toprule
+        \textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2} \\
+        \midrule
+        Treatment 1         & 0.0003262           & 0.562               \\
+        Treatment 2         & 0.0015681           & 0.910               \\
+        Treatment 3         & 0.0009271           & 0.296               \\
+        \bottomrule
+    \end{tabular}
+    \caption{Table caption.}
+    \label{tab:example} % Unique label used for referencing the table in-text
+\end{table}
+
+Referencing \autoref{tab:example} in-text using its label.
+
+\begin{table}[t] % Floating table, [t] tells LaTeX to place it at the top of the next available page
+    \centering % Horizontally center the table on the page
+    \begin{tabular}{L{0.15\textwidth} R{0.15\textwidth} R{0.15\textwidth}} % Specify column alignment with L{width}, C{width} and R{width} for fixed-width columns, or the default latex l, c and r for flexible-width columns
+        \toprule
+        \textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2} \\
+        \midrule
+        Treatment 1         & 0.0003262           & 0.562               \\
+        Treatment 2         & 0.0015681           & 0.910               \\
+        Treatment 3         & 0.0009271           & 0.296               \\
+        \bottomrule
+    \end{tabular}
+    \caption{Floating table.}
+    \label{tab:floating} % Unique label used for referencing the table in-text
+\end{table}
+
+%------------------------------------------------
+
+\section{Figure}\index{Figure}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor arcu luctus, imperdiet urna iaculis, mattis eros. Pellentesque iaculis odio vel nisl ullamcorper, nec faucibus ipsum molestie. Sed dictum nisl non aliquet porttitor. Etiam vulputate arcu dignissim, finibus sem et, viverra nisl. Aenean luctus congue massa, ut laoreet metus ornare in. Nunc fermentum nisi imperdiet lectus tincidunt vestibulum at ac elit. Nulla mattis nisl eu malesuada suscipit.
+
+\begin{figure}[H] % Use [H] to suppress floating and place the figure/table exactly where it is specified in the text
+    \centering % Horizontally center the figure on the page
+    \includegraphics[width=0.5\textwidth]{creodocs_logo.pdf} % Include the figure image
+    \caption{Figure caption.}
+    \label{fig:placeholder} % Unique label used for referencing the figure in-text
+\end{figure}
+
+Referencing \autoref{fig:placeholder} in-text using its label.
+
+\begin{figure}[b] % Floating figure, [b] tells LaTeX to place it at the bottom of the next available page
+    \centering % Horizontally center the figure on the page
+    \includegraphics[width=\textwidth]{creodocs_logo.pdf} % Include the figure image
+    \caption{Floating figure.}
+    \label{fig:floating} % Unique label used for referencing the figure in-text
+\end{figure}
+
+%----------------------------------------------------------------------------------------
+
+\stopcontents[part] % Manually stop the 'part' table of contents here so the previous Part page table of contents doesn't list the following chapters
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+\chapterimage{} % Chapter heading image
+\chapterspaceabove{2.5cm} % Whitespace from the top of the page to the chapter title on chapter pages
+\chapterspacebelow{2cm} % Amount of vertical whitespace from the top margin to the start of the text on chapter pages
+
+%------------------------------------------------
+
+\chapter*{Bibliography}
+\markboth{\sffamily\normalsize\bfseries Bibliography}{\sffamily\normalsize\bfseries Bibliography} % Set the page headers to display a Bibliography chapter name
+\addcontentsline{toc}{chapter}{\textcolor{ocre}{Bibliography}} % Add a Bibliography heading to the table of contents
+
+\section*{Articles}
+\addcontentsline{toc}{section}{Articles} % Add the Articles subheading to the table of contents
+
+\printbibliography[heading=bibempty, type=article] % Output article bibliography entries
+
+\section*{Books}
+\addcontentsline{toc}{section}{Books} % Add the Books subheading to the table of contents
+
+\printbibliography[heading=bibempty, type=book] % Output book bibliography entries
+
+%----------------------------------------------------------------------------------------
+%	INDEX
+%----------------------------------------------------------------------------------------
+
+\cleardoublepage % Make sure the index starts on an odd (right side) page
+\phantomsection
+\addcontentsline{toc}{chapter}{\textcolor{ocre}{Index}} % Add an Index heading to the table of contents
+\printindex % Output the index
+
+%----------------------------------------------------------------------------------------
+%	APPENDICES
+%----------------------------------------------------------------------------------------
+
+\chapterimage{orange2.jpg} % Chapter heading image
+\chapterspaceabove{6.75cm} % Whitespace from the top of the page to the chapter title on chapter pages
+\chapterspacebelow{7.25cm} % Amount of vertical whitespace from the top margin to the start of the text on chapter pages
+
+\begin{appendices}
+
+    \renewcommand{\chaptername}{Appendix} % Change the chapter name to Appendix, i.e. "Appendix A: Title", instead of "Chapter A: Title" in the headers
+
+    %------------------------------------------------
+
+    \chapter{Appendix Chapter Title}
+
+    \section{Appendix Section Title}
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam auctor mi risus, quis tempor libero hendrerit at. Duis hendrerit placerat quam et semper. Nam ultricies metus vehicula arcu viverra, vel ullamcorper justo elementum. Pellentesque vel mi ac lectus cursus posuere et nec ex. Fusce quis mauris egestas lacus commodo venenatis. Ut at arcu lectus. Donec et urna nunc. Morbi eu nisl cursus sapien eleifend tincidunt quis quis est. Donec ut orci ex. Praesent ligula enim, ullamcorper non lorem a, ultrices volutpat dolor. Nullam at imperdiet urna. Pellentesque nec velit eget est euismod pretium.
+
+    %------------------------------------------------
+
+    \chapter{Appendix Chapter Title}
+
+    \section{Appendix Section Title}
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam auctor mi risus, quis tempor libero hendrerit at. Duis hendrerit placerat quam et semper. Nam ultricies metus vehicula arcu viverra, vel ullamcorper justo elementum. Pellentesque vel mi ac lectus cursus posuere et nec ex. Fusce quis mauris egestas lacus commodo venenatis. Ut at arcu lectus. Donec et urna nunc. Morbi eu nisl cursus sapien eleifend tincidunt quis quis est. Donec ut orci ex. Praesent ligula enim, ullamcorper non lorem a, ultrices volutpat dolor. Nullam at imperdiet urna. Pellentesque nec velit eget est euismod pretium.
+
+    %------------------------------------------------
+
+\end{appendices}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

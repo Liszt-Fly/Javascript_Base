@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{//这是一个模块}
+\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}init.....\PYGZdq{}}\PYG{p}{)}
+\PYG{k+kd}{let} \PYG{n+nx}{show}\PYG{o}{=}\PYG{p}{()=\PYGZgt{}\PYGZob{}}\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{p}{)\PYGZcb{}}
+\end{Verbatim}

@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}init....\PYGZdq{}}\PYG{p}{)}
+\PYG{k+kd}{let} \PYG{n+nx}{title} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}后盾人\PYGZdq{}}
+\PYG{k+kd}{let} \PYG{n+nx}{url} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}houdunren.com\PYGZdq{}}
+\PYG{k+kd}{function} \PYG{n+nx}{show}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+	\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{n+nx}{title} \PYG{o}{+} \PYG{n+nx}{url}\PYG{p}{)}
+\PYG{p}{\PYGZcb{}}
+\PYG{k}{export} \PYG{p}{\PYGZob{}} \PYG{n+nx}{title}\PYG{p}{,} \PYG{n+nx}{show} \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{//方式1 直接使用export default关键字}
+\PYG{k}{export} \PYG{k}{default} \PYG{k+kd}{class} \PYG{n+nx}{Test}\PYG{p}{\PYGZob{}}
+    \PYG{k}{static} \PYG{k+kd}{const} \PYG{n+nx}{version}\PYG{o}{=}\PYG{l+m+mf}{1.0}
+\PYG{p}{\PYGZcb{}}
+\PYG{c+c1}{//方式2 as default}
+\PYG{k+kd}{class} \PYG{n+nx}{Test}\PYG{p}{\PYGZob{}}
+    \PYG{k}{static} \PYG{k+kd}{const} \PYG{n+nx}{version}\PYG{o}{=}\PYG{l+m+mf}{1.0}
+\PYG{p}{\PYGZcb{}}
+\PYG{k}{export} \PYG{p}{\PYGZob{}}\PYG{n+nx}{Test} \PYG{k+kr}{as} \PYG{k}{default}\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

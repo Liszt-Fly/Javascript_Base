@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+	\PYG{o}{\PYGZlt{}}\PYG{n+nx}{script} \PYG{n+nx}{type}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}module\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+		\PYG{k}{import} \PYG{p}{\PYGZob{}} \PYG{n+nx}{title}\PYG{p}{,} \PYG{n+nx}{show} \PYG{p}{\PYGZcb{}} \PYG{k+kr}{from} \PYG{l+s+s2}{\PYGZdq{}./hd.js\PYGZdq{}}
+		\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{n+nx}{title}\PYG{p}{)}
+		\PYG{n+nx}{show}\PYG{p}{()}
+	\PYG{o}{\PYGZlt{}}\PYG{err}{/script\PYGZgt{}}
+\end{Verbatim}

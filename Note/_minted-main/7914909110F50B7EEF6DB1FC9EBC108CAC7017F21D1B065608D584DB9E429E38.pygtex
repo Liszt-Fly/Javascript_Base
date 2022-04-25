@@ -1,0 +1,24 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{x}{    public void push(int item)\PYGZob{}}
+\PYG{x}{        if(pointer\PYGZgt{}=array.length)\PYGZob{}}
+\PYG{x}{            throw new IllegalStateException();}
+\PYG{x}{        \PYGZcb{}}
+\PYG{x}{        array[pointer++]=item;}
+\PYG{x}{    \PYGZcb{}}
+\PYG{x}{    public int pop()\PYGZob{}}
+\PYG{x}{        if(pointer==0)\PYGZob{}}
+\PYG{x}{            throw new IllegalStateException();}
+\PYG{x}{        \PYGZcb{}}
+\PYG{x}{        return array[\PYGZhy{}\PYGZhy{}pointer];}
+\PYG{x}{    \PYGZcb{}}
+\PYG{x}{    public int peek()\PYGZob{}}
+\PYG{x}{        if(pointer==0)\PYGZob{}}
+\PYG{x}{            throw new IllegalStateException();}
+\PYG{x}{        \PYGZcb{}}
+\PYG{x}{        return array[pointer\PYGZhy{}1];}
+\PYG{x}{    \PYGZcb{}}
+\PYG{x}{    public String toArray()\PYGZob{}}
+
+\PYG{x}{        return Arrays.toString(Arrays.copyOfRange(array,0,pointer));}
+\PYG{x}{    \PYGZcb{}}
+\end{Verbatim}
