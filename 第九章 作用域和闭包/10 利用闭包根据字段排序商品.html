@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    let lessons = [
+        {
+            title: "vue.js学习手册",
+            click: 29,
+            price: 300
+        },
+        {
+            title: "css学习",
+            click: 21,
+            price: 200
+        },
+        {
+            title: "d3.js",
+            click: 211,
+            price: 15
+        }
+    ]
+
+    let hd = lessons.sort((function (a, b) {
+        return a.price > b.price ? 1 : -1
+    }))
+
+    function order(field) {
+        return function (a, b) {
+            return a[field] > b[field] ? 1 : -1
+        }
+    }
+
+    let click = lessons.sort(order("click"))
+    console.table(click)
+</script>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    let title = "后盾人"
+    function show() {
+        let url = "houdunren.com"
+        function hd() {
+
+        }
+        hd()
+    }
+    show()
+    show()
+    show()
+    //每一次调用都会新建一块内存，相互之间不会共享数据
+    //show方法使用之后 url被清理掉
+    console.log(url)//undefined
+</script>
+
+</html>

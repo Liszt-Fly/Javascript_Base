@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    //如何实现累加效果？
+    function hd() {
+        let n = 1
+        //!sum 被保留，上层的n也会保留，整个环境都会保留
+        return function sum() {
+            console.log(++n)
+        }
+
+    }
+    //产生一块内存地址
+    let a = hd()
+    a()
+    a()
+    a()
+    console.log("----------")
+    //重新开辟一块新的内存地址
+    let b = hd()
+    b()
+    b()
+    b()
+
+    //PART2
+    function hd2() {
+        let n = 1
+        return function sum() {
+            let m = 1
+            return function show() {
+                console.log(++m)
+            }
+            show()
+        }
+    }
+    let c = hd2()()
+    c()
+    c()
+    //PART3
+    function hd3() {
+        let n = 1
+        return function sum() {
+            let m = 1
+            function show() {
+                console.log(++n)
+            }
+            console.log("ok")
+            show()
+        }
+    }
+    let p = hd3()
+    p()
+    p()
+    p()
+</script>
+
+</html>
