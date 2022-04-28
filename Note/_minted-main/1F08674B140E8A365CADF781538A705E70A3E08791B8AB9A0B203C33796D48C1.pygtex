@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{k}{for} \PYG{p}{(}\PYG{k+kd}{var} \PYG{n+nx}{i} \PYG{o}{=} \PYG{l+m+mf}{1}\PYG{p}{;} \PYG{n+nx}{i} \PYG{o}{\PYGZlt{}=} \PYG{l+m+mf}{3}\PYG{p}{;} \PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{n+nx}{i}\PYG{p}{)} \PYG{c+c1}{//1,2,3}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{n+nx}{i}\PYG{p}{)}\PYG{c+c1}{//4}
+
+    \PYG{k}{for} \PYG{p}{(}\PYG{k+kd}{let} \PYG{n+nx}{m} \PYG{o}{=} \PYG{l+m+mf}{1}\PYG{p}{;} \PYG{n+nx}{m} \PYG{o}{\PYGZlt{}=} \PYG{l+m+mf}{3}\PYG{p}{;} \PYG{n+nx}{m}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{n+nx}{m}\PYG{p}{)}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{n+nx}{m}\PYG{p}{)}\PYG{c+c1}{//undefined}
+\end{Verbatim}

@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{x}{    \PYGZlt{}script type=\PYGZdq{}module\PYGZdq{}\PYGZgt{}}
+\PYG{x}{    import * as api from \PYGZdq{}./db.js\PYGZdq{}}
+\PYG{x}{    console.log(api.a)//1}
+\PYG{x}{    console.log(api.b)//2}
+\PYG{x}{    console.log(api.c)//3}
+\PYG{x}{    \PYGZlt{}/script\PYGZgt{}}
+\end{Verbatim}

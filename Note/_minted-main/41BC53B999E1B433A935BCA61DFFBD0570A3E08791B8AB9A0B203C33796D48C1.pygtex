@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{let} \PYG{n+nx}{title}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}houdunren\PYGZdq{}}
+\PYG{k+kd}{function} \PYG{n+nx}{test}\PYG{p}{()\PYGZob{}}
+    \PYG{c+c1}{//可以访问到title变量}
+    \PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{n+nx}{title}\PYG{p}{)}
+\PYG{p}{\PYGZcb{}}
+\PYG{n+nx}{test}\PYG{p}{()}\PYG{c+c1}{//houdunren}
+\end{Verbatim}

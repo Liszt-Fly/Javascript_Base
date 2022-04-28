@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{x}{console.log(\PYGZdq{}init....\PYGZdq{})}
+\PYG{x}{let title = \PYGZdq{}后盾人\PYGZdq{}}
+\PYG{x}{let url = \PYGZdq{}houdunren.com\PYGZdq{}}
+\PYG{x}{function show() \PYGZob{}}
+\PYG{x}{	console.log(title + url)}
+\PYG{x}{\PYGZcb{}}
+\PYG{x}{export \PYGZob{} title, show \PYGZcb{}}
+\end{Verbatim}

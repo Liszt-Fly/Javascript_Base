@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{x}{\PYGZlt{}!\PYGZhy{}\PYGZhy{}每一个模块都是一个顶级作用域，模块之间不能访问\PYGZhy{}\PYGZhy{}\PYGZgt{}}
+\PYG{x}{\PYGZlt{}script type=\PYGZdq{}module\PYGZdq{}\PYGZgt{}}
+\PYG{x}{  let hd = \PYGZdq{}houdunren.com\PYGZdq{};}
+\PYG{x}{\PYGZlt{}/script\PYGZgt{}}
+
+\PYG{x}{\PYGZlt{}script type=\PYGZdq{}module\PYGZdq{}\PYGZgt{}}
+\PYG{x}{  alert(hd); // Error}
+\PYG{x}{\PYGZlt{}/script\PYGZgt{}}
+\end{Verbatim}

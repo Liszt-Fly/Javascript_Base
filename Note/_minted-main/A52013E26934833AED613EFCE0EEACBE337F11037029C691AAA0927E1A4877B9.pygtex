@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{x}{let module = (function () \PYGZob{}}
+\PYG{x}{const moduleList = \PYGZob{}\PYGZcb{}}
+\PYG{x}{function define(name, modules, action) \PYGZob{}}
+\PYG{x}{modules.map((m, i) =\PYGZgt{} \PYGZob{}}
+\PYG{x}{//将moduleList的真正模块传入modules}
+\PYG{x}{modules[i] = moduleList[m]}
+\PYG{x}{\PYGZcb{})}
+\PYG{x}{//将modules传入作为参数传入action，并且放置到moduleList中去}
+\PYG{x}{moduleList[name] = action.apply(null, modules)}
+\PYG{x}{\PYGZcb{}}
+\PYG{x}{return \PYGZob{} define \PYGZcb{}}
+\PYG{x}{\PYGZcb{})()}
+\end{Verbatim}

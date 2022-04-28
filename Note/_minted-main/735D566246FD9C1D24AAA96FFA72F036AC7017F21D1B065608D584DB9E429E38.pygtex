@@ -1,0 +1,23 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{x}{//定义第一个模块}
+\PYG{x}{module.define(\PYGZdq{}hd\PYGZdq{}, [],}
+\PYG{x}{function() \PYGZob{}}
+\PYG{x}{    return \PYGZob{}}
+\PYG{x}{        first(arr) \PYGZob{}}
+\PYG{x}{            return arr[0]}
+\PYG{x}{        \PYGZcb{},}
+\PYG{x}{        max(arr, key) \PYGZob{}}
+\PYG{x}{            return arr.sort((a, b) = \PYGZgt{}b[key] \PYGZhy{} a[key])[0]}
+\PYG{x}{        \PYGZcb{}}
+\PYG{x}{    \PYGZcb{}}
+\PYG{x}{\PYGZcb{})}
+\PYG{x}{//定义第二个模块}
+
+\PYG{x}{module.define(\PYGZdq{}lesson\PYGZdq{}, [\PYGZdq{}hd\PYGZdq{}], function (hd) \PYGZob{}}
+\PYG{x}{let data = [}
+\PYG{x}{	\PYGZob{} name: \PYGZdq{}js\PYGZdq{}, price: 199 \PYGZcb{},}
+\PYG{x}{	\PYGZob{} name: \PYGZdq{}mysql\PYGZdq{}, price: 78 \PYGZcb{},}
+\PYG{x}{	]}
+\PYG{x}{console.log(hd.max(data, \PYGZdq{}price\PYGZdq{}))}
+\PYG{x}{	\PYGZcb{})}
+\end{Verbatim}

@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{k+kd}{let} \PYG{n+nx}{btns} \PYG{o}{=} \PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{querySelectorAll}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}button\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nx}{btns}\PYG{p}{.}\PYG{n+nx}{forEach}\PYG{p}{(}\PYG{k+kd}{function} \PYG{p}{(}\PYG{n+nx}{item}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{k+kd}{let} \PYG{n+nx}{bind} \PYG{o}{=} \PYG{k+kc}{false}
+        \PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}click\PYGZdq{}}\PYG{p}{,} \PYG{k+kd}{function} \PYG{p}{()} \PYG{p}{\PYGZob{}}
+            \PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{bind}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{k+kd}{let} \PYG{n+nx}{left} \PYG{o}{=} \PYG{l+m+mf}{1}
+                \PYG{n+nx}{bind} \PYG{o}{=} \PYG{n+nx}{setInterval}\PYG{p}{(}\PYG{k+kd}{function} \PYG{p}{()} \PYG{p}{\PYGZob{}}
+                    \PYG{c+c1}{//闭包访问item}
+                    \PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{left} \PYG{o}{=} \PYG{n+nx}{left}\PYG{o}{++} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}px\PYGZdq{}}
+                \PYG{p}{\PYGZcb{},} \PYG{l+m+mf}{100}\PYG{p}{)}
+            \PYG{p}{\PYGZcb{}}
+        \PYG{p}{\PYGZcb{})}
+    \PYG{p}{\PYGZcb{});}
+\end{Verbatim}

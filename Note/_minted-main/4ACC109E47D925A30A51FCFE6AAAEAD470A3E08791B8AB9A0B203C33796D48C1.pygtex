@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{k+kd}{function} \PYG{n+nx}{show}\PYG{p}{()\PYGZob{}}
+        \PYG{k+kd}{let} \PYG{n+nx}{url}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}https://qiaoyangedu.top\PYGZdq{}}
+        \PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{n+nx}{url}\PYG{p}{)}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{n+nx}{show}\PYG{p}{()}
+    \PYG{n+nx}{show}\PYG{p}{()}
+    \PYG{n+nx}{show}\PYG{p}{()}
+\end{Verbatim}

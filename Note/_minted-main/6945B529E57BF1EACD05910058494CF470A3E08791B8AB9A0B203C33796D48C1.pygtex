@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{k+kd}{function} \PYG{n+nx}{hd}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+        \PYG{k+kd}{let} \PYG{n+nx}{n} \PYG{o}{=} \PYG{l+m+mf}{1}
+        \PYG{k}{return} \PYG{k+kd}{function} \PYG{n+nx}{sum}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+                \PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{o}{++}\PYG{n+nx}{n}\PYG{p}{)}
+            \PYG{p}{\PYGZcb{}}
+    \PYG{p}{\PYGZcb{}}
+\PYG{k+kd}{let} \PYG{n+nx}{a}\PYG{o}{=}\PYG{n+nx}{hd}\PYG{p}{()}\PYG{c+c1}{//使用a引用了环境作用域中的内容}
+\PYG{n+nx}{a}\PYG{p}{()}
+\PYG{n+nx}{a}\PYG{p}{()}
+\PYG{n+nx}{a}\PYG{p}{()}
+\PYG{k+kd}{let} \PYG{n+nx}{b}\PYG{o}{=}\PYG{n+nx}{hd}\PYG{p}{()} \PYG{c+c1}{//输出的n=1}
+\end{Verbatim}

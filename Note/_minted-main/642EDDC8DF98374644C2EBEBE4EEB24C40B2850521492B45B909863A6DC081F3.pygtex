@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{desc}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}houdunren\PYGZdq{}}\PYG{p}{\PYGZgt{}}在线学习\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{desc}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}hdcms\PYGZdq{}}\PYG{p}{\PYGZgt{}}开源产品\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+    \PYG{k+kd}{let} \PYG{n+nx}{divs} \PYG{o}{=} \PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{querySelectorAll}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}div\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nx}{divs}\PYG{p}{.}\PYG{n+nx}{forEach}\PYG{p}{(}\PYG{k+kd}{function} \PYG{p}{(}\PYG{n+nx}{item}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{k+kd}{let} \PYG{n+nx}{desc} \PYG{o}{=} \PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{getAttribute}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}desc\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}click\PYGZdq{}}\PYG{p}{,} \PYG{k+kd}{function} \PYG{p}{()} \PYG{p}{\PYGZob{}}
+            \PYG{c+c1}{//item一直存储在内存中，我们如果只需要desc，这是一种浪费}
+            \PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{n+nx}{desc}\PYG{p}{)}
+            \PYG{n+nx}{item} \PYG{o}{=} \PYG{k+kc}{null}
+        \PYG{p}{\PYGZcb{})}
+
+    \PYG{p}{\PYGZcb{})}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\end{Verbatim}
